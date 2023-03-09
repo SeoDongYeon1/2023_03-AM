@@ -28,7 +28,12 @@ public class Main {
 			
 			if (command.equals("article list")) {
 				if(articles.size() > 0) {
-					System.out.println("있던데?");
+					Article foundArticle = null;
+					System.out.println("  번호  /   제목   ");
+					for(int i = articles.size()-1; i >= 0; i--) {
+						foundArticle = articles.get(i);
+						System.out.printf("   %d   /   %s   \n", foundArticle.id, foundArticle.title);
+					}
 				}
 				else {
 					System.out.println("게시글이 없습니다.");				

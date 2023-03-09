@@ -29,11 +29,11 @@ public class Main {
 				if (articles.size() > 0) 
 				{
 					Article foundArticle = null;
-					System.out.println("  번호  /   제목   /   작성 날짜   ");
+					System.out.println("  번호  /      제목      /         작성 날짜         /  조회수");
 					for (int i = articles.size() - 1; i >= 0; i--) 
 					{
 						foundArticle = articles.get(i);
-						System.out.printf("   %d   /   %s    /   %s\n", foundArticle.id, foundArticle.title, foundArticle.regDate);
+						System.out.printf("   %d   /     %s       /   %s   /   %d \n", foundArticle.id, foundArticle.title, foundArticle.regDate, foundArticle.hit);
 					}
 				} 
 				else {
@@ -81,11 +81,13 @@ public class Main {
 						System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 					}
 					else {
+						foundArticle.IncreaseHit();
 						System.out.printf("번호 : %d \n", foundArticle.id);
 						System.out.printf("제목 : %s \n", foundArticle.title);
 						System.out.printf("내용 : %s \n", foundArticle.body);				
 						System.out.printf("작성 날짜 : %s \n", foundArticle.regDate);
 						System.out.printf("수정된 날짜 : %s \n", foundArticle.updateDate);
+						System.out.printf("조회수 : %d \n", foundArticle.hit);
 					}
 				} catch(NumberFormatException e) {
 					System.out.println("article detail (숫자)를 입력하세요.");
@@ -187,6 +189,7 @@ class Article {
 	String updateDate;
 	String title;
 	String body;
+	int hit;
 
 	Article(int id, String regDate, String updateDate, String title, String body) {
 		this.id = id;
@@ -195,4 +198,9 @@ class Article {
 		this.title = title;
 		this.body = body;
 	}
+	
+	public void IncreaseHit() {
+		this.hit++;
+	}
+	
 }

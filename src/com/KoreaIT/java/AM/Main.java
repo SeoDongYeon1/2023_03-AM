@@ -1,9 +1,12 @@
 package com.KoreaIT.java.AM;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
+		List<Article> articles = new ArrayList<>();
 		System.out.println("==프로그램 시작==");
 
 		Scanner sc = new Scanner(System.in);
@@ -24,8 +27,8 @@ public class Main {
 			}
 			
 			if (command.equals("article list")) {
-				if(lastArticleId > 0) {
-					System.out.printf("%d개의 게시글이 존재합니다.\n", lastArticleId);
+				if(articles.size() > 0) {
+					System.out.println("있던데?");
 				}
 				else {
 					System.out.println("게시글이 없습니다.");				
@@ -38,6 +41,9 @@ public class Main {
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
+				
+				Article article = new Article(id, title, body);
+				articles.add(article);
 
 				System.out.printf("%d번글이 생성되었습니다.\n", id);
 				lastArticleId++;
@@ -51,5 +57,16 @@ public class Main {
 		System.out.println("==프로그램 끝==");
 
 		sc.close();
+	}
+}
+class Article {
+	int id;
+	String title;
+	String body;
+	
+	Article(int id, String title, String body) {
+		this.id = id;
+		this.title = title;
+		this.body = body;
 	}
 }

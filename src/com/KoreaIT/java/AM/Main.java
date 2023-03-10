@@ -31,17 +31,33 @@ public class Main {
 				break;
 			}
 
-			if (command.equals("article list")) 
+			if (command.startsWith("article list")) 
 			{
 				if (articles.size() > 0) 
 				{
-					Article foundArticle = null;
+					String searchKeyword = command.substring("article list".length()).trim();
+
+					List<Article> forPrintArticles = articles;
+
+					if (searchKeyword.length() > 0) {
+						System.out.println("searchKeyword : " + searchKeyword);
+						forPrintArticles = new ArrayList<>();
+
+						for (Article article : articles) {
+							if (article.title.contains(searchKeyword)) {
+								forPrintArticles.add(article);
+							}
+						}
+						if (forPrintArticles.size() == 0) {
+							System.out.println("검색 결과가 없습니다");
+							continue;
+						}
+					}
 					System.out.println("  번호  /      제목      /         작성 날짜         /  조회수");
-					for (int i = articles.size() - 1; i >= 0; i--) 
+					for (int i = forPrintArticles.size() - 1; i >= 0; i--) 
 					{
-						foundArticle = articles.get(i);
-						System.out.printf("   %d   /     %s       /   %s   /   %d \n", foundArticle.id,
-								foundArticle.title, foundArticle.regDate, foundArticle.hit);
+						Article artilce = articles.get(i);
+						System.out.printf("   %d   /     %s       /   %s   /   %d \n", artilce.id, artilce.title, artilce.regDate, artilce.hit);
 					}
 				} 
 				else 
@@ -182,6 +198,7 @@ public class Main {
 	}
 
 	public static Article getArticleById(int id) {
+// ver1
 //		for (int i = 0; i < articles.size(); i++) {  
 //			Article article = articles.get(i);
 //			if (article.id == id) {
@@ -190,12 +207,14 @@ public class Main {
 //			
 //		}
 		
+// ver2		
 //		for (Article article : articles) {
 //			if (article.id == id) {
 //				return article;
 //			}
 //		}
 		
+// ver3		
 		int index = getArticleIndexById(id);
 		
 		if(index != -1) {

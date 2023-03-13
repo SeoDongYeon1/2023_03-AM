@@ -6,13 +6,31 @@ import java.util.Scanner;
 import com.KoreaIT.java.AM.dto.Member;
 import com.KoreaIT.java.AM.util.Util;
 
-public class MemberController {
+public class MemberController extends Controller{
 	private List<Member> members;
 	private Scanner sc;
+	private String command;
+	private String actionMethodName;
 	
 	public MemberController(List<Member> members, Scanner sc) {
 		this.members = members;
 		this.sc = sc;
+	}
+	
+	public void doAction(String actionMethodName, String command) {
+		this.actionMethodName = actionMethodName;
+		this.command = command;
+		
+		switch(actionMethodName) {
+		case "join":
+			doJoin();
+			break;
+		case "list":
+			showList();
+			break;
+		default :
+			System.out.println("존재하지 않는 명령어입니다.");
+		}
 	}
 	
 	int lastMemberId = 0;
@@ -72,7 +90,7 @@ public class MemberController {
 			System.out.println("번호 / 이름        / 아이디     / 비밀번호     / 가입일자     ");
 			for(int i = members.size()-1; i >= 0; i--) {
 				Member member = members.get(i);
-				System.out.printf("%d   / %s       / %s     / %s     / %s     \n", member.id, member.name, member.loginId, member.loginPw, member.regDate);
+				System.out.printf("%d   / %s      / %s    / %s      / %s     \n", member.id, member.name, member.loginId, member.loginPw, member.regDate);
 			}
 		}
 	}
@@ -97,6 +115,12 @@ public class MemberController {
 		}
 		return -1;
 	}
-
 	
+	public void maketestData() {
+		System.out.println("테스트를 위한 회원 테스트 데이터가 생성되었습니다.");
+		members.add(new Member(1, "test1", "test1", "test1", Util.getNowDate(), ""));
+		members.add(new Member(2, "test2", "test2", "test2", Util.getNowDate(), ""));
+		members.add(new Member(3, "test3", "test3", "test3", Util.getNowDate(), ""));
+
+	}
 }

@@ -7,18 +7,45 @@ import java.util.Scanner;
 import com.KoreaIT.java.AM.dto.Article;
 import com.KoreaIT.java.AM.util.Util;
 
-public class ArticleController {
+public class ArticleController extends Controller{
 	private List<Article> articles;
 	private Scanner sc;
+	private String command;
+	private String actionMethodName;
 
 	public ArticleController(List<Article> articles, Scanner sc) {
 		this.articles = articles;
 		this.sc = sc;
 	}
+	
+	public void doAction(String actionMethodName, String command) {
+		this.actionMethodName = actionMethodName;
+		this.command = command;
+		
+		switch(actionMethodName) {
+		case "list":
+			showList();
+			break;
+		case "write":
+			doWrite();
+			break;
+		case "detail":
+			showDetail();
+			break;
+		case "delete":
+			doDelete();
+			break;
+		case "modify":
+			doModify();
+			break;
+			default :
+				System.out.println("존재하지 않는 명령어입니다.");
+		}
+	}
 
 	int lastArticleId = 3;
 
-	public void showList(String command) {
+	public void showList() {
 		if (articles.size() > 0) {
 			String searchKeyword = command.substring("article list".length()).trim();
 
@@ -48,7 +75,7 @@ public class ArticleController {
 		}
 	}
 
-	public void doWrite(String command) {
+	public void doWrite() {
 		int id = lastArticleId + 1;
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
@@ -64,7 +91,7 @@ public class ArticleController {
 		lastArticleId++;
 	}
 
-	public void showDetail(String command) {
+	public void showDetail() {
 		String[] commandBits = command.split(" ");
 
 		if (commandBits.length < 3 || commandBits.length > 3) {
@@ -93,7 +120,7 @@ public class ArticleController {
 
 	}
 
-	public void doDelete(String command) {
+	public void doDelete() {
 		String[] commandBits = command.split(" ");
 
 		if (commandBits.length < 3 || commandBits.length > 3) {
@@ -118,7 +145,7 @@ public class ArticleController {
 
 	}
 
-	public void doModify(String command) {
+	public void doModify() {
 		String[] commandBits = command.split(" ");
 
 		if (commandBits.length < 3 || commandBits.length > 3) {
@@ -172,7 +199,7 @@ public class ArticleController {
 	}
 	
 	public void maketestData() {
-		System.out.println("테스트를 위한 테스트 데이터가 생성되었습니다.");
+		System.out.println("테스트를 위한 게시글 테스트 데이터가 생성되었습니다.");
 		articles.add(new Article(1, Util.getNowDate(), "", "test1", "test1", 10));
 		articles.add(new Article(2, Util.getNowDate(), "", "test2", "test2", 20));
 		articles.add(new Article(3, Util.getNowDate(), "", "test3", "test3", 30));

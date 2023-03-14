@@ -13,6 +13,8 @@ public class MemberController extends Controller{
 	private String command;
 	private String actionMethodName;
 	
+	private Member loginedMember;
+	
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
 		this.sc = sc;
@@ -100,13 +102,33 @@ public class MemberController extends Controller{
 	}
 	
 	private void doLogin() {
-		System.out.printf("아이디 : ");
+		if(loginedMember!=null) {
+			System.out.println("로그아웃 후 이용해주세요.");
+			return;
+		}
+		System.out.printf("로그인 아이디 : ");
 		String loginId = sc.nextLine();
-		System.out.printf("비밀번호 : ");
+		System.out.printf("로그인 비밀번호 : ");
 		String loginPw = sc.nextLine();
+			
+		Member member = getMemberByloginId(loginId);
+			
+		if(member==null) {
+			System.out.println("아이디 또는 비밀번호를 잘못 입력했습니다.");
+			return;
+		}
+			
+		if(member.loginPw.equals(loginPw)) {
+			loginedMember = member;
+			System.out.printf("%s님 로그인 되었습니다.\n", loginedMember.name);
+		}
+		else {
+			System.out.println("아이디 또는 비밀번호를 잘못 입력했습니다.");
+		}
 	}
+
 	
-	private Member getMemberById(String loginId) {
+	private Member getMemberByloginId(String loginId) {
 		int index = getMemberIndexByLoginId(loginId);
 		
 		if(index != -1) {

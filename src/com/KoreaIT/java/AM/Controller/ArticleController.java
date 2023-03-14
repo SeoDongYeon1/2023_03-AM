@@ -18,6 +18,8 @@ public class ArticleController extends Controller{
 		this.sc = sc;
 	}
 	
+	MemberController membercontroller = new MemberController(sc);
+	
 	public void doAction(String actionMethodName, String command) {
 		this.actionMethodName = actionMethodName;
 		this.command = command;
@@ -27,6 +29,10 @@ public class ArticleController extends Controller{
 			showList();
 			break;
 		case "write":
+			if(isLogined()==false) {
+				System.out.println("로그인 후 이용해주세요.");
+				break;
+			}
 			doWrite();
 			break;
 		case "detail":

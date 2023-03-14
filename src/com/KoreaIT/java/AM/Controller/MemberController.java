@@ -13,13 +13,12 @@ public class MemberController extends Controller{
 	private String command;
 	private String actionMethodName;
 	
-	private Member loginedMember;
-	
 	public MemberController(Scanner sc) {
 		this.members = new ArrayList<>();
 		this.sc = sc;
 	}
-	
+
+
 	public void doAction(String actionMethodName, String command) {
 		this.actionMethodName = actionMethodName;
 		this.command = command;
@@ -48,7 +47,7 @@ public class MemberController extends Controller{
 	int lastMemberId = 3;
 	
 	private void doJoin() {
-		if(loginedMember != null) {
+		if(isLogined()) {
 			System.out.println("로그아웃 후 이용해주세요.");
 			return;
 		}
@@ -151,17 +150,13 @@ public class MemberController extends Controller{
 	
 	private void showProfile() {
 		if(isLogined()==false) {
-			System.out.println("로그인 후 이용해주세요.");
+			System.out.println("로그인 상태가 아닙니다."); 
 		}
 		else {
 			System.out.println("== 현재 로그인 한 회원의 정보 ==");
 			System.out.printf("로그인 아이디 : %s \n", loginedMember.loginId);
 			System.out.printf("이름 : %s \n", loginedMember.name);
 		}
-	}
-	
-	private boolean isLogined() {
-		return loginedMember != null;
 	}
 	
 	private Member getMemberByloginId(String loginId) {

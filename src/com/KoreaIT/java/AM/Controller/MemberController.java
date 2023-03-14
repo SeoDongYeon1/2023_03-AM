@@ -1,5 +1,6 @@
 package com.KoreaIT.java.AM.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,8 +13,8 @@ public class MemberController extends Controller{
 	private String command;
 	private String actionMethodName;
 	
-	public MemberController(List<Member> members, Scanner sc) {
-		this.members = members;
+	public MemberController(Scanner sc) {
+		this.members = new ArrayList<>();
 		this.sc = sc;
 	}
 	
@@ -28,14 +29,17 @@ public class MemberController extends Controller{
 		case "list":
 			showList();
 			break;
+		case "login":
+			doLogin();
+			break;
 		default :
 			System.out.println("존재하지 않는 명령어입니다.");
 		}
 	}
 	
-	int lastMemberId = 0;
+	int lastMemberId = 3;
 	
-	public void doJoin() {
+	private void doJoin() {
 		int id = lastMemberId + 1;
 		String loginId = null;
 		String loginPw = null;
@@ -82,7 +86,7 @@ public class MemberController extends Controller{
 		
 	}
 	
-	public void showList() {
+	private void showList() {
 		if(members.size()==0) {
 			System.out.println("회원이 존재하지 않습니다.");
 		}
@@ -95,7 +99,23 @@ public class MemberController extends Controller{
 		}
 	}
 	
-	public boolean isJoinableLoginId(String loginId) {
+	private void doLogin() {
+		System.out.printf("아이디 : ");
+		String loginId = sc.nextLine();
+		System.out.printf("비밀번호 : ");
+		String loginPw = sc.nextLine();
+	}
+	
+	private Member getMemberById(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
+		
+		if(index != -1) {
+			return members.get(index);
+		}
+		return null;
+	}
+	
+	private boolean isJoinableLoginId(String loginId) {
 		int index = getMemberIndexByLoginId(loginId);
 		
 		if(index == -1) {

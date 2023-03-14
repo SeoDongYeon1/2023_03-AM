@@ -1,24 +1,14 @@
 package com.KoreaIT.java.AM;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.AM.Controller.ArticleController;
 import com.KoreaIT.java.AM.Controller.Controller;
 import com.KoreaIT.java.AM.Controller.MemberController;
-import com.KoreaIT.java.AM.dto.Article;
-import com.KoreaIT.java.AM.dto.Member;
 
 public class App {
 	
-	static List<Article> articles;
-	static List<Member> members;
-	
-	public App() { // 시작하자마자 리스트 생성 
-		/** 길 안내 역할 */
-		articles = new ArrayList<>();
-		members = new ArrayList<>();
+	public App() {
 	}
 
 	public void start() {
@@ -26,8 +16,8 @@ public class App {
 
 		Scanner sc = new Scanner(System.in);
 		
-		MemberController memberController = new MemberController(members, sc);
-		ArticleController articleController = new ArticleController(articles, sc);
+		MemberController memberController = new MemberController(sc);
+		ArticleController articleController = new ArticleController(sc);
 		
 		Controller controller;
 		

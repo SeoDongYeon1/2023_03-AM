@@ -13,8 +13,8 @@ public class ArticleController extends Controller{
 	private String command;
 	private String actionMethodName;
 
-	public ArticleController(List<Article> articles, Scanner sc) {
-		this.articles = articles;
+	public ArticleController(Scanner sc) {
+		this.articles = new ArrayList<>();
 		this.sc = sc;
 	}
 	
@@ -45,7 +45,7 @@ public class ArticleController extends Controller{
 
 	int lastArticleId = 3;
 
-	public void showList() {
+	private void showList() {
 		if (articles.size() > 0) {
 			String searchKeyword = command.substring("article list".length()).trim();
 
@@ -75,7 +75,7 @@ public class ArticleController extends Controller{
 		}
 	}
 
-	public void doWrite() {
+	private void doWrite() {
 		int id = lastArticleId + 1;
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
@@ -91,7 +91,7 @@ public class ArticleController extends Controller{
 		lastArticleId++;
 	}
 
-	public void showDetail() {
+	private void showDetail() {
 		String[] commandBits = command.split(" ");
 
 		if (commandBits.length < 3 || commandBits.length > 3) {
@@ -120,7 +120,7 @@ public class ArticleController extends Controller{
 
 	}
 
-	public void doDelete() {
+	private void doDelete() {
 		String[] commandBits = command.split(" ");
 
 		if (commandBits.length < 3 || commandBits.length > 3) {
@@ -145,7 +145,7 @@ public class ArticleController extends Controller{
 
 	}
 
-	public void doModify() {
+	private void doModify() {
 		String[] commandBits = command.split(" ");
 
 		if (commandBits.length < 3 || commandBits.length > 3) {
@@ -189,7 +189,7 @@ public class ArticleController extends Controller{
 		return -1;
 	}
 
-	public Article getArticleById(int id) {
+	private Article getArticleById(int id) {
 		int index = getArticleIndexById(id);
 
 		if (index != -1) {

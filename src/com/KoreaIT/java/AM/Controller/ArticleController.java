@@ -32,24 +32,12 @@ public class ArticleController extends Controller{
 			showDetail();
 			break;
 		case "write":
-			if(isLogined()==false) {
-				System.out.println("로그인 후 이용해주세요.");
-				break;
-			}
 			doWrite();
 			break;
 		case "delete":
-			if(isLogined()==false) {
-				System.out.println("로그인 후 이용해주세요.");
-				break;
-			}
 			doDelete();
 			break;
 		case "modify":
-			if(isLogined()==false) {
-				System.out.println("로그인 후 이용해주세요.");
-				break;
-			}
 			doModify();
 			break;
 			default :
@@ -146,10 +134,16 @@ public class ArticleController extends Controller{
 			int id = Integer.parseInt(commandBits[2]);
 
 			int foundIndex = getArticleIndexById(id);
+			Article foundArticle = getArticleById(id);
 
 			if (foundIndex == -1) {
 				System.out.printf("%d번 게시글은 존재하지 않습니다.\n", id);
-			} else {
+			}
+			
+			if(loginedMember.id != foundArticle.memberId) {
+				System.out.println("이 게시물에 권한이 없습니다.");
+			}
+			else {
 				articles.remove(foundIndex);
 				System.out.printf("%d번 게시글이 삭제되었습니다. \n", id);
 			}
@@ -171,10 +165,16 @@ public class ArticleController extends Controller{
 			int id = Integer.parseInt(commandBits[2]);
 
 			Article foundArticle = getArticleById(id);
-
+			
 			if (foundArticle == null) {
 				System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
-			} else {
+				return;
+			} 
+			
+			if(loginedMember.id != foundArticle.memberId) {
+				System.out.println("이 게시물에 권한이 없습니다.");
+			}
+			else {
 				System.out.printf("수정할 제목 : ");
 				String title = sc.nextLine();
 				System.out.printf("수정할 내용 : ");

@@ -133,10 +133,9 @@ public class ArticleController extends Controller{
 		try {
 			int id = Integer.parseInt(commandBits[2]);
 
-			int foundIndex = getArticleIndexById(id);
 			Article foundArticle = getArticleById(id);
 
-			if (foundIndex == -1) {
+			if (foundArticle == null) {
 				System.out.printf("%d번 게시글은 존재하지 않습니다.\n", id);
 			}
 			
@@ -144,8 +143,8 @@ public class ArticleController extends Controller{
 				System.out.println("이 게시물에 권한이 없습니다.");
 			}
 			else {
-				articles.remove(foundIndex);
-				System.out.printf("%d번 게시글이 삭제되었습니다. \n", id);
+				articles.remove(foundArticle);
+				System.out.printf("%d번 게시글이 삭제되었습니다. \n", foundArticle.id);
 			}
 
 		} catch (NumberFormatException e) {

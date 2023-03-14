@@ -34,6 +34,12 @@ public class MemberController extends Controller{
 		case "login":
 			doLogin();
 			break;
+		case "logout":
+			doLogout();
+			break;
+		case "profile":
+			showProfile();
+			break;
 		default :
 			System.out.println("존재하지 않는 명령어입니다.");
 		}
@@ -42,6 +48,11 @@ public class MemberController extends Controller{
 	int lastMemberId = 3;
 	
 	private void doJoin() {
+		if(loginedMember != null) {
+			System.out.println("로그아웃 후 이용해주세요.");
+			return;
+		}
+		
 		int id = lastMemberId + 1;
 		String loginId = null;
 		String loginPw = null;
@@ -89,7 +100,7 @@ public class MemberController extends Controller{
 	}
 	
 	private void showList() {
-		if(members.size()==0) {
+		if(members.size() == 0) {
 			System.out.println("회원이 존재하지 않습니다.");
 		}
 		else {
@@ -102,10 +113,11 @@ public class MemberController extends Controller{
 	}
 	
 	private void doLogin() {
-		if(loginedMember!=null) {
-			System.out.println("로그아웃 후 이용해주세요.");
+		if(isLogined()) {
+			System.out.println("이미 로그인 상태입니다.");
 			return;
 		}
+		
 		System.out.printf("로그인 아이디 : ");
 		String loginId = sc.nextLine();
 		System.out.printf("로그인 비밀번호 : ");
@@ -113,7 +125,7 @@ public class MemberController extends Controller{
 			
 		Member member = getMemberByloginId(loginId);
 			
-		if(member==null) {
+		if(member == null) {
 			System.out.println("아이디 또는 비밀번호를 잘못 입력했습니다.");
 			return;
 		}
@@ -126,7 +138,31 @@ public class MemberController extends Controller{
 			System.out.println("아이디 또는 비밀번호를 잘못 입력했습니다.");
 		}
 	}
-
+	
+	private void doLogout() {
+		if(isLogined()) {
+			System.out.printf("로그아웃 되었습니다.\n");
+			loginedMember = null;
+		}
+		else {
+			System.out.println("로그인 후 이용해주세요.");
+		}
+	}
+	
+	private void showProfile() {
+		if(isLogined()==false) {
+			System.out.println("로그인 후 이용해주세요.");
+		}
+		else {
+			System.out.println("== 현재 로그인 한 회원의 정보 ==");
+			System.out.printf("로그인 아이디 : %s \n", loginedMember.loginId);
+			System.out.printf("이름 : %s \n", loginedMember.name);
+		}
+	}
+	
+	private boolean isLogined() {
+		return loginedMember != null;
+	}
 	
 	private Member getMemberByloginId(String loginId) {
 		int index = getMemberIndexByLoginId(loginId);
@@ -159,7 +195,7 @@ public class MemberController extends Controller{
 	}
 	
 	public void maketestData() {
-		System.out.println("테스트를 위한 회원 테스트 데이터가 생성되었습니다.");
+		System.out.println("테스트를 위한 회원 데이터가 생성되었습니다.");
 		members.add(new Member(1, "test1", "test1", "test1", Util.getNowDate(), ""));
 		members.add(new Member(2, "test2", "test2", "test2", Util.getNowDate(), ""));
 		members.add(new Member(3, "test3", "test3", "test3", Util.getNowDate(), ""));

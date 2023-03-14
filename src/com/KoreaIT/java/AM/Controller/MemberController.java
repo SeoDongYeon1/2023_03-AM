@@ -103,10 +103,10 @@ public class MemberController extends Controller{
 			System.out.println("회원이 존재하지 않습니다.");
 		}
 		else {
-			System.out.println("번호 / 이름        / 아이디     / 비밀번호     / 가입일자     ");
+			System.out.println("번호 | 이름        | 아이디     | 비밀번호     | 가입일자     ");
 			for(int i = members.size()-1; i >= 0; i--) {
 				Member member = members.get(i);
-				System.out.printf("%d   / %s      / %s    / %s      / %s     \n", member.id, member.name, member.loginId, member.loginPw, member.regDate);
+				System.out.printf("%d   | %s      | %s    | %s      | %s     \n", member.id, member.name, member.loginId, member.loginPw, member.regDate);
 			}
 		}
 	}

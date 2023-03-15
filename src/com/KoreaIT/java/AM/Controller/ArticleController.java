@@ -116,6 +116,7 @@ public class ArticleController extends Controller{
 			int id = Integer.parseInt(commandBits[2]);
 
 			Article foundArticle = getArticleById(id);
+			List<Member> members = Container.memberDao.members;
 
 			if (foundArticle == null) {
 				System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
@@ -123,8 +124,8 @@ public class ArticleController extends Controller{
 				foundArticle.IncreaseHit();
 				System.out.printf("번호 : %d \n", foundArticle.id);
 				System.out.printf("작성 날짜 : %s \n", foundArticle.regDate);
-				System.out.printf("수정된 날짜 : %s \n", foundArticle.updateDate);
-				System.out.printf("작성자 : %d \n", foundArticle.memberId);
+				System.out.printf("수정 날짜 : %s \n", foundArticle.updateDate);
+				System.out.printf("작성자 : %d \n", foundArticle.memberId); 
 				System.out.printf("제목 : %s \n", foundArticle.title);
 				System.out.printf("내용 : %s \n", foundArticle.body);
 				System.out.printf("조회수 : %d \n", foundArticle.hit);
@@ -203,10 +204,10 @@ public class ArticleController extends Controller{
 		}
 
 	}
-
+	
 	private int getArticleIndexById(int id) {
 		int i = 0;
-		for (Article article : articles) {
+		for (Article article : Container.articleDao.articles) {
 			if (article.id == id) {
 				return i;
 			}

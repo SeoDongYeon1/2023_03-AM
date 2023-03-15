@@ -107,12 +107,30 @@ public class MemberController extends Controller{
 	}
 	
 	private void doLogin() {
-		System.out.printf("로그인 아이디 : ");
-		String loginId = sc.nextLine();
-		System.out.printf("로그인 비밀번호 : ");
-		String loginPw = sc.nextLine();
+		Member member = null;
+		String loginId = null;
+		String loginPw = null;
+		
+		while(true) {
+			System.out.printf("로그인 아이디 : ");
+			loginId = sc.nextLine().trim();
+			if(loginId.length()==0) {
+				System.out.println("아이디를 입력해주세요.");
+				continue;
+			}
+			break;
+		}
+		while(true) {
+			System.out.printf("로그인 비밀번호 : ");
+			loginPw = sc.nextLine().trim();
+			if(loginPw.length()==0) {
+				System.out.println("비밀번호를 입력해주세요.");
+				continue;
+			}
+			break;
+		}
 			
-		Member member = getMemberByloginId(loginId);
+		member = getMemberByloginId(loginId);
 			
 		if(member == null) {
 			System.out.println("아이디 또는 비밀번호를 잘못 입력했습니다.");
@@ -142,28 +160,28 @@ public class MemberController extends Controller{
 		System.out.printf("이름 : %s \n", loginedMember.name);
 	}
 	
-	private Member getMemberByloginId(String loginId) {
-		int index = getMemberIndexByLoginId(loginId);
-		
-		if(index != -1) {
-			return members.get(index);
-		}
-		return null;
-	}
-	
 	private boolean isJoinableLoginId(String loginId) {
 		int index = getMemberIndexByLoginId(loginId);
 		
 		if(index == -1) {
 			return true;
-			}
+		}
 		
 		return false;
+	}
+	
+	private Member getMemberByloginId(String loginId) {
+		int index = getMemberIndexByLoginId(loginId);
+		
+		if(index != -1) {
+			return Container.memberDao.get(index);
 		}
-
+		return null;
+	}
+	
 	private int getMemberIndexByLoginId(String loginId) {
 		int i = 0;
-		for (Member member : members) {
+		for (Member member : Container.memberDao.members) {
 			if (member.loginId.equals(loginId)) {
 				return i;
 			}
@@ -171,6 +189,7 @@ public class MemberController extends Controller{
 		}
 		return -1;
 	}
+	
 	
 	public void maketestData() {
 		System.out.println("테스트를 위한 회원 데이터가 생성되었습니다.");

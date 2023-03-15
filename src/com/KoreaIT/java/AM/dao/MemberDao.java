@@ -3,7 +3,6 @@ package com.KoreaIT.java.AM.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.KoreaIT.java.AM.dao.Dao;
 import com.KoreaIT.java.AM.dto.Member;
 
 public class MemberDao extends Dao{
@@ -25,5 +24,9 @@ public class MemberDao extends Dao{
 
 	public int setNewId() {
 		return lastId + 1;
+	}
+
+	public Member get(int index) {
+		return members.get(index);
 	}
 }

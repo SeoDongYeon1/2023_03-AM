@@ -69,15 +69,21 @@ public class ArticleController extends Controller{
 				}
 			}
 			
-			String writerName = null;
-			
-			List<Member> members = Container.memberDao.members;
 			
 			System.out.println("  번호  |      제목      |         작성 날짜         |  조회수  |  작성자");
 			for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
-				Article article = articles.get(i);
-				System.out.printf("   %d   |     %s     |   %s   |   %d    |  %s  \n", article.id, article.title,
-						article.regDate, article.hit, article.membername);
+				String writerName = null;
+				
+				List<Member> members = Container.memberDao.members;
+				Article article = forPrintArticles.get(i);
+				
+				for(Member member : members) {
+					if(article.memberId == member.id) {
+						writerName = member.name;
+						break;
+					}
+				}
+				System.out.printf("   %d   |     %s     |   %s   |   %d    |  %s  \n", article.id, article.title, article.regDate, article.hit, writerName);				
 			}
 		} else {
 			System.out.println("게시글이 없습니다.");

@@ -142,6 +142,7 @@ public class ArticleController extends Controller{
 
 			if (foundArticle == null) {
 				System.out.printf("%d번 게시글은 존재하지 않습니다.\n", id);
+				return;
 			}
 			
 			if(loginedMember.id != foundArticle.memberId) {

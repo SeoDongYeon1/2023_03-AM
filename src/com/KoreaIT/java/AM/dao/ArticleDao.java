@@ -67,6 +67,7 @@ public class ArticleDao extends Dao{
 		if (index != -1) {
 			return articles.get(index);
 		}
+		
 		return null;
 	}
 

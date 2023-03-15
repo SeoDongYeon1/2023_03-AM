@@ -50,9 +50,17 @@ public class MemberController extends Controller{
 		int id = Container.memberDao.setNewId();
 		String loginId = null;
 		String loginPw = null;
+		String loginPw1 = null;
+		String name = null;
+		
 		while(true) {
 			System.out.printf("아이디 : ");
 			loginId = sc.nextLine();
+			
+			if(loginId.length()==0) {
+				System.out.println("필수 정보입니다.");
+				continue;
+			}
 			
 			if(isJoinableLoginId(loginId) == false) {
 				System.out.println("이미 사용중인 아이디입니다.");
@@ -67,8 +75,22 @@ public class MemberController extends Controller{
 		while(true) {
 			System.out.printf("비밀번호 : ");
 			loginPw = sc.nextLine();
-			System.out.printf("비밀번호 재확인: ");
-			String loginPw1 = sc.nextLine();
+			if(loginPw.length()==0) {
+				System.out.println("필수 정보입니다.");
+				continue;
+			}
+			
+			while(true) {
+				System.out.printf("비밀번호 재확인: ");
+				loginPw1 = sc.nextLine();
+				
+				if(loginPw1.length()==0) {
+					System.out.println("필수 정보입니다.");
+					continue;
+				}
+				break;
+			}
+			
 			if(loginPw.equals(loginPw1)) {
 				System.out.println("비밀번호가 일치합니다.");
 				break;
@@ -78,10 +100,17 @@ public class MemberController extends Controller{
 				continue;
 			}	
 		}
+		while(true) {
+			System.out.printf("이름 : ");
+			name = sc.nextLine();
 			
-		System.out.printf("이름 : ");
-		String name = sc.nextLine();
-		
+			if(name.length()==0) {
+				System.out.println("필수 정보입니다.");
+				continue;
+			}
+			break;
+		}
+
 		String regDate = Util.getNowDate();
 		String updateDate = "";
 		

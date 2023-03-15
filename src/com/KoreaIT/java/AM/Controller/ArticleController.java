@@ -47,8 +47,6 @@ public class ArticleController extends Controller{
 		}
 	}
 
-	int lastArticleId = 3;
-
 	private void showList() {
 		if (articles.size() > 0) {
 			String searchKeyword = command.substring("article list".length()).trim();
@@ -91,7 +89,7 @@ public class ArticleController extends Controller{
 	}
 
 	private void doWrite() {
-		int id = lastArticleId + 1;
+		int id = Container.articleDao.setNewId();
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
 		System.out.printf("내용 : ");
@@ -99,11 +97,12 @@ public class ArticleController extends Controller{
 		String regDate = Util.getNowDate();
 		String updateDate = "";
 
-		Article article = new Article(id, regDate, updateDate, loginedMember.id, loginedMember.name, title, body);
-		articles.add(article);
+		Article article = new Article(id, regDate, updateDate, loginedMember.id, title, body);
+		// articles.add(article);
+		// Container.articleDao.articles.add(article);
+		Container.articleDao.add(article);
 
-		System.out.printf("%d번글이 생성되었습니다.\n", id);
-		lastArticleId++;
+		System.out.printf("%d번글이 생성되었습니다.\n", id);		
 	}
 
 	private void showDetail() {
@@ -125,7 +124,7 @@ public class ArticleController extends Controller{
 				System.out.printf("번호 : %d \n", foundArticle.id);
 				System.out.printf("작성 날짜 : %s \n", foundArticle.regDate);
 				System.out.printf("수정된 날짜 : %s \n", foundArticle.updateDate);
-				System.out.printf("작성자 : %s \n", foundArticle.membername);
+				System.out.printf("작성자 : %d \n", foundArticle.memberId);
 				System.out.printf("제목 : %s \n", foundArticle.title);
 				System.out.printf("내용 : %s \n", foundArticle.body);
 				System.out.printf("조회수 : %d \n", foundArticle.hit);
@@ -220,16 +219,16 @@ public class ArticleController extends Controller{
 		int index = getArticleIndexById(id);
 
 		if (index != -1) {
-			return articles.get(index);
+			return Container.articleDao.get(index);
 		}
 		return null;
 	}
 	
 	public void maketestData() {
 		System.out.println("테스트를 위한 게시글 데이터가 생성되었습니다.");
-		articles.add(new Article(1, Util.getNowDate(), "", 1, "test1", "test1", "test1", 10));
-		articles.add(new Article(2, Util.getNowDate(), "", 2, "test2", "test2",  "test2", 20));
-		articles.add(new Article(3, Util.getNowDate(), "", 2, "test3", "test3",  "test3", 30));
+		Container.articleDao.add(new Article(1, Util.getNowDate(), "", 1, "test1", "test1", 10));
+		Container.articleDao.add(new Article(2, Util.getNowDate(), "", 2, "test2", "test2", 20));
+		Container.articleDao.add(new Article(3, Util.getNowDate(), "", 2, "test3", "test3", 30));
 	}
 
 }

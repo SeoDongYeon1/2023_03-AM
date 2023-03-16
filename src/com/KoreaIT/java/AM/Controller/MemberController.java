@@ -1,6 +1,5 @@
 package com.KoreaIT.java.AM.Controller;
 
-import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.AM.container.Container;
@@ -9,7 +8,6 @@ import com.KoreaIT.java.AM.service.MemberService;
 import com.KoreaIT.java.AM.util.Util;
 
 public class MemberController extends Controller{
-	private List<Member> members;
 	private Scanner sc;
 	private String command;
 	private String actionMethodName;
@@ -122,13 +120,13 @@ public class MemberController extends Controller{
 	}
 	
 	private void showList() {
-		if(memberService.size() == 0) {
+		if(memberService.getMembers().size() == 0) {
 			System.out.println("회원이 존재하지 않습니다.");
 		}
 		else {
 			System.out.println("번호 | 이름        | 아이디     | 가입일자     ");
-			for(int i = memberService.size()-1; i >= 0; i--) {
-				Member member = memberService.get(i);
+			for(int i = memberService.getMembers().size()-1; i >= 0; i--) {
+				Member member = memberService.getMembers().get(i);
 				System.out.printf("%d   | %s      | %s    | %s     \n", member.id, member.name, member.loginId, member.regDate);
 			}
 		}
@@ -187,12 +185,7 @@ public class MemberController extends Controller{
 		System.out.printf("로그인 아이디 : %s \n", loginedMember.loginId);
 		System.out.printf("이름 : %s \n", loginedMember.name);
 	}
-	
 
-	
-	
-	
-	
 	public void maketestData() {
 		System.out.println("테스트를 위한 회원 데이터가 생성되었습니다.");
 		memberService.add(new Member(1, "test1", "test1", "test1", Util.getNowDate(), ""));
